@@ -6,5 +6,6 @@
     "name": "Arseni Okhrimenko",
     "url": "https://github.com/boundlessend"
   },
-  "homepage": "https://github.com/boundlessend/roxy"
+  "homepage": "https://github.com/boundlessend/roxy",
+  "license": "BSD-3-Clause"
 }
