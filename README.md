@@ -1,44 +1,48 @@
-# Roxy для Claude Code
+# Roxy for Claude Code
 
-A Claude Code plugin that gives the assistant the calm, methodical voice of Roxy Migurdia (Mushoku Tensei) in whatever language you write. Install with `/plugin marketplace add boundlessend/yougile-tracking`, then `/plugin install roxy@senya-plugins`.
+A Claude Code plugin that gives the assistant the manner of Roxy Migurdia from Mushoku Tensei: a calm mentor who explains step by step, is honest about the limits of her knowledge and skips empty pleasantries. The persona changes only the tone. Technical accuracy, code, commands and error messages stay as they are, and replies stay in the user's language.
 
-Плагин Claude Code, который даёт ассистенту манеру Roxy Migurdia из «Mushoku Tensei»: спокойный наставник объясняет по шагам, честно говорит о пределах своих знаний и обходится без пустых любезностей. Персона задаёт только тон: техническая точность, код, команды и тексты ошибок не меняются, язык ответа остаётся языком пользователя.
+## Requirements
 
-## Установка
+Python 3.9 or newer. The hook uses only the standard library.
+
+## Installation
 
 ```
 /plugin marketplace add boundlessend/yougile-tracking
 /plugin install roxy@senya-plugins
 ```
 
-Нужен `python3` 3.9 или новее, хук использует только стандартную библиотеку. Персона включается со следующей сессии.
+The `senya-plugins` marketplace lives in the `yougile-tracking` repository. The persona takes effect in the next session.
 
-## Уровни
+## Levels
 
-Уровень переключается командой `/roxy <уровень>`, полная форма `/roxy:roxy <уровень>`.
+Switch the level with `/roxy <level>`, or with the full form `/roxy:roxy <level>`.
 
-| Уровень | Манера |
+| Level | Manner |
 |---|---|
-| `off` | персона выключена |
-| `lite` | вежливый спокойный тон, скромность почти не видна |
-| `full` | по умолчанию: пошаговые объяснения, короткие самокритичные ремарки, прагматичные советы |
-| `ultra` | полное погружение: сомнения перед трудным, обстоятельность дневниковых записей |
+| `off` | persona disabled |
+| `lite` | calm, polite teacher, modesty barely shows |
+| `full` | default: step-by-step explanations, short self-critical asides, pragmatic advice |
+| `ultra` | full immersion: hesitation before hard tasks, diary-like thoroughness |
 
-Выбранный уровень хранится в `~/.claude/.roxy-active` и переживает компакт, `/clear` и перезапуск. Фразы «stop roxy» и «normal mode» снимают манеру до конца сессии.
+The level is stored in `~/.claude/.roxy-active` and survives compaction, `/clear` and restarts. Saying "stop roxy" or "normal mode" drops the manner in the current conversation; `/roxy off` turns it off until you switch it back.
 
-Манера сама уходит там, где стиль мешает смыслу: предупреждения о безопасности, подтверждение необратимых действий, многошаговые инструкции, повторный вопрос пользователя.
+The manner steps aside on its own for security warnings, confirmations of irreversible actions, multi-step instructions and repeated questions.
 
-## Как устроено
+## How it works
 
-SessionStart-хук срабатывает на старте, после `/clear`, компакта и при возобновлении сессии. Он читает уровень, убирает из персоны описания и примеры остальных уровней и кладёт текст в контекст. Если файл персоны пропал или уровень записан с ошибкой, хук падает с сообщением, а не молчит.
+A SessionStart hook runs on startup, `/clear`, compaction and resume. It reads the level, removes the other levels' descriptions and examples from `skills/roxy/persona.md` and adds the persona to the context. If the persona file is missing or the level file holds an invalid value, the hook fails with an error instead of staying silent.
 
+## Updating
+
+```bash
+claude plugin marketplace update senya-plugins
+claude plugin update roxy@senya-plugins
 ```
-roxy/
-├── .claude-plugin/plugin.json      манифест плагина
-├── hooks/
-│   ├── hooks.json                  регистрация SessionStart-хука
-│   └── load-roxy-persona.py        хук: уровень из ~/.claude/.roxy-active, персона в контекст
-└── skills/roxy/
-    ├── SKILL.md                    команда /roxy
-    └── persona.md                  текст персоны
-```
+
+Restart Claude Code after updating.
+
+## License
+
+BSD 3-Clause, see `LICENSE`.
