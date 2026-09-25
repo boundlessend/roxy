@@ -1,0 +1,10 @@
+{
+  "name": "roxy",
+  "description": "Персона Roxy Migurdia: спокойный методичный тон наставника без потери технической точности. Уровни off, lite, full и ultra переключаются командой /roxy и переживают компакт и перезапуск.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Arseni Okhrimenko",
+    "url": "https://github.com/boundlessend"
+  },
+  "homepage": "https://github.com/boundlessend/roxy"
+}
