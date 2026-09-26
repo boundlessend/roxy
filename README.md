@@ -26,7 +26,7 @@ Switch the level with `/roxy <level>`, or with the full form `/roxy:roxy <level>
 | `full` | default: step-by-step explanations, short self-critical asides, pragmatic advice |
 | `ultra` | full immersion: hesitation before hard tasks, diary-like thoroughness |
 
-The level is stored in `~/.claude/.roxy-active` and survives compaction, `/clear` and restarts. Saying "stop roxy" or "normal mode" drops the manner in the current conversation; `/roxy off` turns it off until you switch it back.
+The level is stored in `~/.claude/.roxy-active` and survives compaction, `/clear` and restarts. Saying "stop roxy" or "normal mode" drops the manner only until the next `/clear` or compaction, which load the persona again; `/roxy off` turns it off until you switch it back.
 
 The manner steps aside on its own for security warnings, confirmations of irreversible actions, multi-step instructions and repeated questions.
 
