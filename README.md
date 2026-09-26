@@ -32,7 +32,7 @@ The manner steps aside on its own for security warnings, confirmations of irreve
 
 ## How it works
 
-A SessionStart hook runs on startup, `/clear`, compaction and resume. It reads the level, removes the other levels' descriptions and examples from `skills/roxy/persona.md` and adds the persona to the context. If the persona file is missing or the level file holds an invalid value, the hook fails with an error instead of staying silent.
+A SessionStart hook runs on startup, `/clear` and compaction. A resumed session already carries the persona from its start, so the hook skips resume instead of adding a second copy. It reads the level, removes the other levels' descriptions and examples from `skills/roxy/persona.md` and adds the persona to the context. If the persona file is missing or the level file holds an invalid value, the hook fails with an error instead of staying silent.
 
 ## Updating
 
