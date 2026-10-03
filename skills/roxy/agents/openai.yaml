@@ -1,0 +1,5 @@
+interface:
+  display_name: "Roxy"
+  short_description: "Switch the calm mentor persona and its intensity"
+policy:
+  allow_implicit_invocation: false

@@ -1,20 +1,29 @@
 #!/usr/bin/env python3
 """load the Roxy persona into context at session start and after compaction
 
-the active persona level comes from ~/.claude/.roxy-active (written by the
-/roxy command); without that file the level is full, and at level off the
-hook silently injects nothing
+the active persona level comes from the host's .roxy-active file (written by
+/roxy in Claude Code or $roxy in Codex); without that file the level is full,
+and at level off the hook silently injects nothing
 
 if the persona file is missing, empty or unreadable, the hook writes a visible
-message to stderr and exits with a non-zero code, so Claude Code reports the
+message to stderr and exits with a non-zero code, so the host reports the
 hook failure instead of staying silent
 """
 import json
 import os
 import sys
 
-PERSONA_PATH: str = os.path.join(os.environ["CLAUDE_PLUGIN_ROOT"], "skills", "roxy", "persona.md")
-LEVEL_PATH: str = os.path.expanduser("~/.claude/.roxy-active")
+PLUGIN_ROOT: str
+STATE_ROOT: str
+if "PLUGIN_ROOT" in os.environ:
+    PLUGIN_ROOT = os.environ["PLUGIN_ROOT"]
+    STATE_ROOT = os.environ.get("CODEX_HOME", os.path.expanduser("~/.codex"))
+else:
+    PLUGIN_ROOT = os.environ["CLAUDE_PLUGIN_ROOT"]
+    STATE_ROOT = os.path.expanduser("~/.claude")
+
+PERSONA_PATH: str = os.path.join(PLUGIN_ROOT, "skills", "roxy", "persona.md")
+LEVEL_PATH: str = os.path.join(STATE_ROOT, ".roxy-active")
 DEFAULT_LEVEL: str = "full"
 VALID_LEVELS: frozenset[str] = frozenset({"off", "lite", "full", "ultra"})
 
@@ -72,12 +81,12 @@ def slice_to_level(persona: str, level: str) -> str:
     return "\n".join(kept)
 
 
-def main() -> None:
-    level = read_level(LEVEL_PATH)
+def main(persona_path: str, level_path: str) -> None:
+    level = read_level(level_path)
     if level == "off":
         # persona disabled: skip reading the persona file and inject nothing
         return
-    persona = read_persona(PERSONA_PATH)
+    persona = read_persona(persona_path)
     context = f"{slice_to_level(persona, level)}\nCurrent level: **{level}**.\n"
     output = {
         "systemMessage": f"ROXY PERSONA ACTIVE - level: {level}",
@@ -90,4 +99,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    main(PERSONA_PATH, LEVEL_PATH)

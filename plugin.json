@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "roxy",
+  "version": "1.1.0",
+  "description": "Roxy Migurdia persona: the calm, methodical tone of a mentor with full technical accuracy. Levels off, lite, full and ultra persist across sessions in Claude Code and Codex.",
+  "author": {
+    "name": "Arseni Okhrimenko",
+    "url": "https://github.com/boundlessend"
+  },
+  "homepage": "https://github.com/boundlessend/roxy",
+  "repository": "https://github.com/boundlessend/roxy",
+  "license": "BSD-3-Clause",
+  "keywords": ["roxy", "persona", "mentor"],
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/codex-hooks.json"
+    }
+  }
+}
